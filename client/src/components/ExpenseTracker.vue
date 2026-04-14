@@ -209,16 +209,26 @@ export default {
         const ctx = document.getElementById('spendingChart');
         if (!ctx) return;
         if (this.chartInstance) this.chartInstance.destroy();
+        const categoryColors = {
+            Food:          '#ffd699',
+            Transport:     '#85b7eb',
+            Entertainment: '#cbc4f5',
+            Shopping:      '#f4afc8',
+            Bills:         '#ef9595',
+            Health:        '#97c459',
+            Other:         '#b4b2a9',
+        };
         const labels = Object.keys(this.categoryTotals);
         const data = Object.values(this.categoryTotals);
+        const colors = labels.map(l => categoryColors[l] || '#c0e1d2');
         this.chartInstance = new Chart(ctx, {
             type: 'bar',
             data: {
             labels,
             datasets: [{
                 data,
-                backgroundColor: '#c0e1d2',
-                borderColor: '#5a7a6e',
+                backgroundColor: colors,
+                borderColor: colors,
                 borderWidth: 1,
                 borderRadius: 6,
             }]
@@ -245,13 +255,13 @@ export default {
 .total-amount { display: block; font-size: 1.7rem; font-weight: 700; color: #fff; margin-top: 2px; }
 .cat-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
 .cat-chip { display: flex; align-items: center; gap: 5px; border-radius: 20px; padding: 5px 12px; font-size: 0.8rem; font-weight: 600; }
-.chip-food { background: #c0e1d2; color: #3d6b5e; }
-.chip-transport { background: #c0e1d2; color: #3d6b5e; }
-.chip-entertainment { background: #dc9b9b; color: #7a3a3a; }
-.chip-shopping { background: #dc9b9b; color: #7a3a3a; }
-.chip-bills { background: #e5eee4; color: #5a7a6e; }
-.chip-health { background: #e5eee4; color: #5a7a6e; }
-.chip-other { background: #f6f4e8; color: #8a7a6a; }
+.chip-food, .pill-food { background: #fff3e0; color: #b35c00; }
+.chip-transport, .pill-transport { background: #e3f2fd; color: #1565c0; }
+.chip-entertainment, .pill-entertainment { background: #f3e5f5; color: #6a1b9a; }
+.chip-shopping, .pill-shopping { background: #fce4ec; color: #880e4f; }
+.chip-bills, .pill-bills { background: #ffebee; color: #b71c1c; }
+.chip-health, .pill-health { background: #e8f5e9; color: #1b5e20; }
+.chip-other, .pill-other { background: #f5f5f5; color: #424242; }
 .card { background: #fff; border: 1px solid #e5eee4; border-radius: 14px; padding: 22px 24px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
 .card-title { font-size: 1rem; font-weight: 700; color: #5a7a6e; margin: 0 0 16px; display: flex; align-items: center; gap: 8px; }
 .form-grid { display: grid; grid-template-columns: 1fr auto 1fr auto; gap: 10px; margin-bottom: 14px; }
