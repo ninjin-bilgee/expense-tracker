@@ -9,13 +9,10 @@ async function loadExpensesCollection() {
 
 router.get('/', async (req, res) => {
   try {
-    console.log('GET request received');
-    console.log('MONGODB_URI:', process.env.MONGODB_URI);
     const col = await loadExpensesCollection();
     const all = await col.find({}).sort({ date: -1 }).toArray();
     res.send(all);
   } catch (err) {
-    console.log('ERROR:', err.message);
     res.status(500).send({ error: err.message });
   }
 });
