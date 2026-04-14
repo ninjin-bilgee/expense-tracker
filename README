@@ -1,0 +1,4 @@
+.gitignore:
+- node_modules — packages installed with npm; anyone can reinstall them with 'npm install'
+- /client — the Vue frontend development folder
+- .env — holds MongoDB password; don't want to share passwords publicly
