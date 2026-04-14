@@ -1,12 +1,12 @@
 # Expense Tracker
 
-A full-stack web app for tracking personal expenses. Built as a final project for CSDS 221 at Case Western Reserve University.
+A full-stack web app for tracking personal expenses. Built as a final project for my Full Stack Web Development class at Case Western Reserve University.
 
 Live demo @ https://ninjins-expense-tracker.onrender.com
 
 ## What it does
 
-You can add expenses with a description, amount, category, and date. The app shows a running total and breaks down spending by category. You can edit or delete any expense, and filter the list by category.
+You can add expenses with a description, amount, category, and date. The app shows a running total and breaks down spending by category. You can edit or delete any expense, filter the list by category, and view a color-coded bar chart of your spending.
 
 ## Tech stack
 
@@ -20,7 +20,10 @@ You can add expenses with a description, amount, category, and date. The app sho
 - Create, read, update, and delete expenses
 - Category breakdown with running totals
 - Filter expenses by category
-- Responsive layout
+- A responsive layout
+- Bar chart showing spending per category
+- Color-coded categories
+- Color-coded according to a single aesthetic palette
 
 ## Running locally
 
