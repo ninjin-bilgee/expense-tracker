@@ -52,6 +52,11 @@
         </select>
       </div>
 
+    <div class="card chart-card" v-if="expenses.length > 0">
+      <h2 class="card-title">Spending by Category</h2>
+      <canvas id="spendingChart"></canvas>
+    </div>
+
       <p v-if="filteredExpenses.length === 0" class="empty-msg">No expenses here yet!</p>
 
       <div v-for="expense in filteredExpenses" :key="expense._id" class="expense-item">
@@ -96,12 +101,9 @@
 
 <script>
 import ExpenseService from '../services/ExpenseService';
+import Chart from 'chart.js/auto';
 
 const CATEGORIES = ['Food', 'Transport', 'Entertainment', 'Shopping', 'Bills', 'Health', 'Other'];
-const ICONS = {
-  Food: '', Transport: '', Entertainment: '',
-  Shopping: '', Bills: '', Health: '', Other: '',
-};
 
 export default {
   name: 'ExpenseTracker',
@@ -120,6 +122,7 @@ export default {
       editAmount: '',
       editCategory: '',
       editDate: '',
+      chartInstance: null,
     };
   },
   computed: {
@@ -144,15 +147,13 @@ export default {
     await this.loadExpenses();
   },
   methods: {
-    categoryIcon(cat) {
-      return ICONS[cat] || '📦';
-    },
     async loadExpenses() {
-      try {
-        this.expenses = await ExpenseService.getExpenses();
-      } catch (err) {
-        this.error = err.message;
-      }
+        try {
+            this.expenses = await ExpenseService.getExpenses();
+            this.$nextTick(() => this.renderChart());
+        } catch (err) {
+            this.error = err.message;
+        }
     },
     async createExpense() {
       if (!this.newDesc.trim() || !this.newAmount || !this.newCategory || !this.newDate) {
@@ -203,6 +204,32 @@ export default {
       } catch (err) {
         this.error = err.message;
       }
+    },
+    renderChart() {
+        const ctx = document.getElementById('spendingChart');
+        if (!ctx) return;
+        if (this.chartInstance) this.chartInstance.destroy();
+        const labels = Object.keys(this.categoryTotals);
+        const data = Object.values(this.categoryTotals);
+        this.chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+            labels,
+            datasets: [{
+                data,
+                backgroundColor: '#c0e1d2',
+                borderColor: '#5a7a6e',
+                borderWidth: 1,
+                borderRadius: 6,
+            }]
+            },
+            options: {
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, ticks: { callback: v => '$' + v } }
+            }
+            }
+        });
     },
   },
 };
